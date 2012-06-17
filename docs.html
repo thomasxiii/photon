@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Photon | CSS 3D Lighting Engine</title>
+	<script type="text/javascript" src="http://use.typekit.com/yoe8gdj.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/base.css">
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/base.js"></script>
+</head>
+<body>
+
+<nav class="primary-menu">
+	<h1>Photon</h1>
+	<h2>CSS 3D lighting engine</h2>
+	<ul>
+		<li><a href="index.html">Examples</a></li>
+		<li><a href="docs.html" class="current">Documentation</a></li>
+		<li><a href="photon-0-0-1.zip">GitHub Project</a></li>
+		<li><a href="js/photon.min.js" class="download-btn">photon.min.js</a></li>
+	</ul>
+</nav>
+
+<div class="attasi">
+	<a href="http://attasi.com"><img src="images/attasi-logo.png" alt="attasi.com" /><br />tom made this</a>
+</div>
+
+<article class="docs-wrapper">
+
+	<section>
+		<h3>Introduction</h3>
+
+		<p>Photon is a JavaScript library that adds simple lighting effects to DOM elements in 3D space.</p>
+
+		<h4>Requirements</h4>
+		<p>WebKit is the only browser engine currently supported. Photon relies on the <code>WebKitCSSMatrix</code> object. At the time, no other browsers have an equivalent.</p>
+	</section>
+
+	<section>
+		<h3>Quick Start</h3>
+
+		<section>
+			<h4>Create a Light</h4>
+			<p>The <code>Light</code> object represents a point in 3D space from which faces are lit.</p>
+			<pre><code><span class="comment">// creates a light at x: 0, y: 0, z: 100</span>
+<span class="var">var</span> light = <span class="keyword">new</span> Photon.Light();</code></pre>
+		</section>
+
+		<section>
+			<h4>Define Faces</h4>
+			<p><code>Face</code> objects specify which DOM elements should be shaded or tinted by the light.</p>
+
+			<pre><code><span class="comment">// create a face with a max shade of .5</span>
+<span class="var">var</span> face = <span class="keyword">new</span> Photon.Face( <span class="keyword">$</span>(<span class="string">'.face-1'</span>) );</code></pre>
+		</section>
+
+		<section>
+			<h4>Render</h4>
+			<p>Call the <code>render</code> method on your faces to shade or tint them based on their angle from the specified light.</p>
+
+			<pre><code><span class="comment">// shade face by its relation to light</span>
+face.render(light, <span class="boolean">true</span>);</code></pre>
+		</section>
+	</section>
+
+	<section class="library">
+		<h3>Library Reference</h3>
+
+		<section>
+			<h4>Light</h4>
+
+			<dl>
+				<dt><code>Photon.Light( x = 0, y = 0, z = 100 )</code><br /><em>constructor</em></dt>
+				<dd><p>Creates a new <code>Light</code> object. The default coordinates position the light straight towards the viewport.</p></dd>
+
+				<dt><code>moveTo( x, y, z )</code><br /><em>method</em></dt>
+				<dd><p>Moves the light to a new set of coordinates.</p></dd>
+			</dl>
+		</section>
+
+		<section>
+			<h4>Face</h4>
+
+			<dl>
+				<dt><code>Photon.Face( element, maxShade = .5, maxTint = 0, isBackfaced = false )</code><br /><em>constructor</em></dt>
+				<dd>
+					<p>Creates a new <code>Face</code> object. By default, the light will subtly shade each element.</p>
+
+					<dl class="property-list">
+						<dt><code>element</code><em>:jQuery Object</em></dt>
+						<dd>
+							<p>The DOM object to which shading should be applied.</p>
+						</dd>
+
+						<dt><code>maxShade</code><em>:float</em></dt>
+						<dd>
+							<p>The maximum amount of black that can be added to an element: 0–1.</p>
+						</dd>
+
+						<dt><code>maxTint</code><em>:float</em></dt>
+						<dd>
+							<p>The maximum amount of white that can be added to an element: 0–1.</p>
+						</dd>
+
+						<dt><code>isBackfaced</code><em>:Boolean</em></dt>
+						<dd>
+							<p>Determines if the backface of the <code>element</code> should be shaded as if it were its own face. Rule of thumb: If the opposite side the <code>element</code> is visible, you probably want to set this to <code>true</code>.</p>
+						</dd>
+					</dl>
+				</dd>
+
+				<dt><code>render( light, getNewRotations, parentRotations )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Shades or tints the element based on its angle relative to the <code>Light</code> object. Shades and tints are applied to an empty div within the element with a class of <code>photon-shader</code>.</p>
+
+					<dl class="property-list">
+						<dt><code>light</code> <em>:Light</em></dt>
+						<dd>The <code>Light</code> object to use to calculate shading or tinting.</dd>
+
+						<dt><code>getNewRotations</code> <em>:Boolean</em></dt>
+						<dd>If <code>true</code>, a new rotation vector is calculated before shading is applied. Use this when the element's transform property has changed.</dd>
+
+						<dt><code>parentRotations</code> <em>:Object</em></dt>
+						<dd>The parent object's rotations (x, y and z in radians). These are used primarily for <code>FaceGroup</code> objects.</dd>
+					</dl>
+				</dd>
+
+				<dt><code>setMaxShade( value )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Sets the maximum shade value: 0–1.</p>
+
+					<dl class="property-list">
+						<dt><code>value</code> <em>:float</em></dt>
+					</dl>
+				</dd>
+
+				<dt><code>setMaxTint( value )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Sets the maximum tint value: 0–1.</p>
+
+					<dl class="property-list">
+						<dt><code>value</code> <em>:float</em></dt>
+					</dl>
+				</dd>
+			</dl>
+		</section>
+
+		<section>
+			<h4>FaceGroup</h4>
+			<dl>
+				<dt><code>Photon.FaceGroup( parent, faces = parent.children(), maxShade = .5, maxTint = 0, isBackfaced = false )</code><br /><em>constructor</em></dt>
+				<dd>
+					<p>Creates a new <code>FaceGroup</code> object, which allows one call of <code>render</code> to shade multiple faces. It also calculates the rotations of nested elements (i.e., if the parent element is rotated, the calculated rotations of the elements within it will be adjusted accordingly).</p>
+
+					<dl class="property-list">
+						<dt><code>parent</code><em>:jQuery Object</em></dt>
+						<dd>
+							<p>The DOM object containing the faces to be shaded. Note: this element, itself, will not be shaded.</p>
+						</dd>
+
+						<dt><code>faces</code><em>:jQuery Object</em></dt>
+						<dd>
+							<p>The DOM elements to shade. Defaults to <code>parent.children()</code> but an explicit selector is recommended.</p>
+						</dd>
+
+						<dt><code>maxShade</code><em>:float</em></dt>
+						<dd>
+							<p>The maximum amount of black that can be added to the faces: 0–1.</p>
+						</dd>
+
+						<dt><code>maxTint</code><em>:float</em></dt>
+						<dd>
+							<p>The maximum amount of white that can be added to the faces: 0–1.</p>
+						</dd>
+
+						<dt><code>isBackfaced</code><em>:Boolean</em></dt>
+						<dd>
+							<p>Determines if the backface of the <code>faces</code> should be shaded as if it were its own face. Rule of thumb: If the opposite side the <code>element</code> is visible, you probably want to set this to <code>true</code>.</p>
+						</dd>
+					</dl>
+				</dd>
+
+				<dt><code>render( light, getNewGroupRotations, getNewFaceRotations )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Shades or tints the element based on its angle relative to the <code>Light</code> object. Shades and tints are applied to an empty div within the element with a class of <code>photon-shader</code>.</p>
+
+					<dl class="property-list">
+						<dt><code>light</code> <em>:Light</em></dt>
+						<dd>The <code>Light</code> object to use to calculate shading or tinting.</dd>
+
+						<dt><code>getNewGroupRotations</code> <em>:Boolean</em></dt>
+						<dd>If <code>true</code>, a new rotation vector is calculated for the <code>parent</code> element before shading is applied. The new vector will affect the rotations of all <code>faces</code>. Use this when the <code>parent</code>'s transform property has changed.</dd>
+
+						<dt><code>getNewFaceRotations</code> <em>:Boolean</em></dt>
+						<dd>If <code>true</code>, new rotation vectors are calculated for all of the <code>faces</code>. Use this when the transform properties of the<code>faces</code> have changed.</dd>
+					</dl>
+				</dd>
+
+				<dt><code>setMaxShade( value )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Sets the maximum shade value: 0–1.</p>
+
+					<dl class="property-list">
+						<dt><code>value</code> <em>:float</em></dt>
+					</dl>
+				</dd>
+
+				<dt><code>setMaxTint( value )</code><br /><em>method</em></dt>
+				<dd>
+					<p>Sets the maximum tint value: 0–1.</p>
+
+					<dl class="property-list">
+						<dt><code>value</code> <em>:float</em></dt>
+					</dl>
+				</dd>
+			</dl>
+		</section>
+
+	</section>
+</article>
+
+</body>
+</html>
