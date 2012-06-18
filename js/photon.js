@@ -9,7 +9,7 @@
 
 
 var Photon = {
-	version: '0.0.1',
+    version: '0.0.1',
 
 	degToRad: function(deg) {
 		return deg * Math.PI / 180;
@@ -31,25 +31,25 @@ var Photon = {
 	buildMatrix: function(faceTransform) {
 		var matrix = new WebKitCSSMatrix(faceTransform);
 		
-		matrix.m11 = matrix.m11 * 10000000000000000;
-		matrix.m12 = matrix.m12 * 10000000000000000;
-		matrix.m13 = matrix.m13 * 10000000000000000;
-		matrix.m14 = matrix.m14 * 10000000000000000;
+		matrix.m11 = matrix.m11 * 1e16;
+		matrix.m12 = matrix.m12 * 1e16;
+		matrix.m13 = matrix.m13 * 1e16;
+		matrix.m14 = matrix.m14 * 1e16;
 		
-		matrix.m21 = matrix.m21 * 10000000000000000;
-		matrix.m22 = matrix.m22 * 10000000000000000;
-		matrix.m23 = matrix.m23 * 10000000000000000;
-		matrix.m24 = matrix.m24 * 10000000000000000;
+		matrix.m21 = matrix.m21 * 1e16;
+		matrix.m22 = matrix.m22 * 1e16;
+		matrix.m23 = matrix.m23 * 1e16;
+		matrix.m24 = matrix.m24 * 1e16;
 		
-		matrix.m31 = matrix.m31 * 10000000000000000;
-		matrix.m32 = matrix.m32 * 10000000000000000;
-		matrix.m33 = matrix.m33 * 10000000000000000;
-		matrix.m34 = matrix.m34 * 10000000000000000;
+		matrix.m31 = matrix.m31 * 1e16;
+		matrix.m32 = matrix.m32 * 1e16;
+		matrix.m33 = matrix.m33 * 1e16;
+		matrix.m34 = matrix.m34 * 1e16;
 		
-		matrix.m41 = matrix.m41 * 10000000000000000;
-		matrix.m42 = matrix.m42 * 10000000000000000;
-		matrix.m43 = matrix.m43 * 10000000000000000;
-		matrix.m44 = matrix.m44 * 10000000000000000;
+		matrix.m41 = matrix.m41 * 1e16;
+		matrix.m42 = matrix.m42 * 1e16;
+		matrix.m43 = matrix.m43 * 1e16;
+		matrix.m44 = matrix.m44 * 1e16;
 		
 		return matrix;
 	}
