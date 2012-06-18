@@ -182,13 +182,7 @@ Photon.FaceGroup = function(parent, faces, maxShade, maxTint, isBackfaced) {
 	this.element = parent;
 	this.faces = [];
 
-	var childFaces;
-
-	if(faces) {
-		childFaces = faces;
-	} else {
-		childFaces = parent.children();
-	}
+	var childFaces = faces;
 
 	for(var i = 0; i < childFaces.length; i++) {
 		this.faces[i] = new Photon.Face(childFaces[i], maxShade, maxTint, isBackfaced);
