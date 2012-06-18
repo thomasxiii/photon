@@ -48,7 +48,6 @@ $(document).ready(function() {
 	setupCoverflow();
 	setupCrane();
 	setupMap();
-	// showMap();
 	showCrane();
 
 	// demo menu
@@ -163,7 +162,6 @@ function onDemoNav(e) {
 
 function setupCrane() {
 	$crane = $('.crane');
-	// crane = new Photon.FaceGroup($('.crane'), $('.face'), .6, .1, true);
 	crane = new Photon.FaceGroup($('.crane')[0], $('.crane .face'), .6, .1, true);
 	renderCrane();
 }
@@ -276,8 +274,6 @@ function setupCoverflow() {
 
 	$coverflowItems.eq(1).bind('webkitTransitionEnd', stopRenderTimer);
 	
-	// $coverflow.bind('click', changeCover);
-
 	setCoverTransforms();
 }
 
@@ -332,8 +328,7 @@ function stopRenderTimer() {
 	}
 }
 
-function renderCoverflow() {
-	console.log(coverflowFaces[1].rotations);
+function renderCoverflow() {	
 	for(var i = 0; i < coverflowFaces.length; i++) {
 		coverflowFaces[i].render(light, true);
 	}
@@ -341,6 +336,7 @@ function renderCoverflow() {
 
 function hideCoverflow() {
 	$coverflow.hide();
+	$body.unbind();
 }
 
 function showCoverflow() {
