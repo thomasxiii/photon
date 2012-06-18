@@ -7,8 +7,6 @@
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/base.css">
-	<script src="js/jquery-1.7.1.min.js"></script>
-	<script src="js/base.js"></script>
 	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-12900000-8']);
@@ -35,7 +33,7 @@
 </nav>
 
 <div class="attasi">
-	<a href="http://attasi.com"><img src="images/attasi-logo.png" alt="attasi.com" /><br />tom made this</a>
+	<a href="http://attasi.com"><img src="images/attasi-logo.png" alt="attasi.com" /><br />tom giannattasio</a>
 </div>
 
 <article class="docs-wrapper">
@@ -43,10 +41,13 @@
 	<section>
 		<h3>Introduction</h3>
 
-		<p>Photon is a JavaScript library that adds simple lighting effects to DOM elements in 3D space.</p>
+		<p>Photon is a JavaScript library that adds simple lighting effects to DOM elements in 3D space. It's rather processor-intensive, so please use responsively.</p>
 
 		<h4>Requirements</h4>
-		<p>WebKit is the only browser engine currently supported. Photon relies on the <code>WebKitCSSMatrix</code> object. At the time, no other browsers have an equivalent.</p>
+		<p>Photon relies on the <code>WebKitCSSMatrix</code> object, so WebKit is the only browser engine currently supported.</p>
+
+		<h4>Contribute</h4>
+		<p>If you'd like to help, please do so on <a href="https://github.com/thomasxiii/photon">GitHub</a> or chat me up on <a href="https://twitter.com/attasi">twitter</a>.</p>
 	</section>
 
 	<section>
@@ -161,7 +162,7 @@ face.render(light, <span class="boolean">true</span>);</code></pre>
 		<section>
 			<h4>FaceGroup</h4>
 			<dl>
-				<dt><code>Photon.FaceGroup( parent, faces = parent.children(), maxShade = .5, maxTint = 0, isBackfaced = false )</code><br /><em>constructor</em></dt>
+				<dt><code>Photon.FaceGroup( parent, faces, maxShade = .5, maxTint = 0, isBackfaced = false )</code><br /><em>constructor</em></dt>
 				<dd>
 					<p>Creates a new <code>FaceGroup</code> object, which allows one call of <code>render</code> to shade multiple faces. It also calculates the rotations of nested elements (i.e., if the parent element is rotated, the calculated rotations of the elements within it will be adjusted accordingly).</p>
 
@@ -171,9 +172,9 @@ face.render(light, <span class="boolean">true</span>);</code></pre>
 							<p>The DOM object containing the faces to be shaded. Note: this element, itself, will not be shaded.</p>
 						</dd>
 
-						<dt><code>faces</code><em>:object</em></dt>
+						<dt><code>faces</code><em>:array</em></dt>
 						<dd>
-							<p>The DOM elements to shade. Defaults to <code>parent.children()</code> but an explicit selector is recommended.</p>
+							<p>An array of DOM elements within the <code>parent</code> object, which should be shaded.</p>
 						</dd>
 
 						<dt><code>maxShade</code><em>:float</em></dt>

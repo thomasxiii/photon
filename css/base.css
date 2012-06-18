@@ -616,6 +616,10 @@ h2:after {
 	padding-bottom: 60px;
 }
 
+.docs-wrapper a {
+	color: #ff0;
+}
+
 .docs-wrapper > section {
 	margin-bottom: 88px;
 }
