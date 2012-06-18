@@ -5,6 +5,7 @@ var $body,
 	$mapPanel1,
 	$mapPanel2,
 	$mapPanel3,
+	$mapCover,
 	$coverflow,
 	$toggleBtn,
 	$toggleOn,
@@ -207,6 +208,7 @@ function setupMap() {
 	$mapPanel1 = $('.panel-1');
 	$mapPanel2 = $('.panel-2');
 	$mapPanel3 = $('.panel-3');
+	$mapCover = $('.map-cover');
 	$map.bind('click', toggleMap);
 
 	map = new Photon.FaceGroup($('.map')[0], $('.map .face'), 1.5, .2, true);
@@ -243,6 +245,7 @@ function rotateMap(e) {
 	var yPer = e.pageY / $body.height();
 
 	$mapPanel1.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
+	$mapCover.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg) translateZ(-2px) rotateY(180deg) translateX(240px)');
 	$mapPanel3.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
 	$map.css('-webkit-transform', 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
 
@@ -273,7 +276,7 @@ function setupCoverflow() {
 
 	$coverflowItems.eq(1).bind('webkitTransitionEnd', stopRenderTimer);
 	
-	$coverflow.bind('click', changeCover);
+	// $coverflow.bind('click', changeCover);
 
 	setCoverTransforms();
 }
@@ -286,6 +289,28 @@ function changeCover() {
 function setCoverTransforms(animate) {
 	if(!renderTimer && animate) {
 		renderTimer = setInterval(renderCoverflow, 34);
+	}
+	for(var i = 0; i < coverflowFaces.length; i++) {
+		var element = coverflowFaces[i].element;
+		var offset = Math.abs(currentCover - i);
+		var x = i == currentCover ? 0 : (150 + (100 * offset)) * (i < currentCover ? -1 : 1);
+		var z = i == currentCover ? 0 : -200;
+		// var rotationY = i == currentCover ? 0 : 80 * (i < currentCover ? 1 : -1);
+
+		var rotationY = i == currentCover ? 0 : (80 + (offset * -5)) * (i < currentCover ? 1 : -1);
+
+		$(element).css('-webkit-transform', 'translateX(' + x +'px) translateZ(' + z + 'px) rotateY(' + rotationY + 'deg)');
+	}
+}
+
+function rotateCoverflow(e) {
+	var xPer = e.pageX / $body.width();
+
+	var newIndex = (coverflowFaces.length -1) - Math.round((coverflowFaces.length -1) * xPer);
+
+	if(!renderTimer && newIndex != currentCover) {
+		renderTimer = setInterval(renderCoverflow, 34);
+		currentCover = newIndex;
 	}
 	for(var i = 0; i < coverflowFaces.length; i++) {
 		var element = coverflowFaces[i].element;
@@ -320,6 +345,7 @@ function hideCoverflow() {
 
 function showCoverflow() {
 	$coverflow.show();
+	$body.bind('mousemove', rotateCoverflow);
 }
 
 

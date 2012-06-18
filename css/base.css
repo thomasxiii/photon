@@ -74,8 +74,8 @@ h2:after {
 
 .primary-menu .download-btn {
 	margin-top: 20px;
-	padding: 3px 6px;
-	background: #ff0;
+	padding: 6px 18px 9px 41px;
+	background: url(../images/download-arrow.png) no-repeat 13px 11px #ff0;
 	color: #000;
 	border-radius: 2px;
 }
@@ -554,7 +554,7 @@ h2:after {
 	top: -230px;
 	width: 240px;
 	height: 400px;
-	background: url(../images/map-2.png) no-repeat;
+	background: url(../images/map.png) no-repeat;
 }
 
 .panel-1 {
@@ -562,6 +562,17 @@ h2:after {
 	background-position: 0 0;
 	-webkit-transform-origin: right;
 	-webkit-transform: rotateY(178deg);
+}
+
+.map-cover {
+	position: absolute;
+	top: -230px;
+	left: -360px;
+	width: 240px;
+	height: 400px;
+	background: url(../images/map-cover.png) no-repeat;
+	-webkit-transform-origin: right;
+	-webkit-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
 }
 
 .map.is-open .panel-1 {
