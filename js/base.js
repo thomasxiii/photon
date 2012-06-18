@@ -358,13 +358,13 @@ function showCoverflow() {
 
 ---------------------------------*/
 
-function degToRad(deg) {
-	return deg * Math.PI / 180;
-}
+// function degToRad(deg) {
+// 	return deg * Math.PI / 180;
+// }
 
-function radToDeg(rad) {
-	return rad * 180 / Math.PI;
-}
+// function radToDeg(rad) {
+// 	return rad * 180 / Math.PI;
+// }
 
 function clamp(val, min, max) {
     if(val > max) return max;

@@ -128,7 +128,7 @@ Photon.Face.prototype = {
 		}
 
 		// calculate the anglar distance from the light
-		this.angleFrom = radToDeg(light.vector.angleFrom(fullVector));
+		this.angleFrom = Photon.radToDeg(light.vector.angleFrom(fullVector));
 
 		// determine the background color of the shader element
 		var background;
@@ -210,7 +210,7 @@ Photon.FaceGroup.prototype = {
 			this.getRotations();
 		}
 		
-		this.angleFrom = radToDeg(light.vector.angleFrom(this.vector));
+		this.angleFrom = Photon.radToDeg(light.vector.angleFrom(this.vector));
 
 		for(var i = 0, length = this.faces.length; i < length; i++) {
 			this.faces[i].render(light, getNewFaceRotations, this.rotations);
