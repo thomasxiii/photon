@@ -120,8 +120,6 @@ Photon.Face.prototype = {
 		// pull the transform property
     var faceTransform = window.getComputedStyle(this.element)[this.transformString] || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
 
-    console.log(this.transformString);
-
 		// convert the transform data into a matrix
 		this.matrix = Photon.buildMatrix(faceTransform);
 
