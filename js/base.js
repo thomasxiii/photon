@@ -21,34 +21,58 @@ var $body,
 	light,
 	currentCover,
 	renderTimer,
-	isLit;
-
+	isLit,
+	domTransformProperty,
+	cssTransformProperty,
+	domTransitionProperty,
+	cssTransitionProperty,
+	transitionEndEvent,
+	transitionEndEvents = {
+		'WebkitTransition' : 'webkitTransitionEnd',
+		'MozTransition'    : 'transitionend',
+		'OTransition'      : 'oTransitionEnd',
+		'msTransition'     : 'MSTransitionEnd',
+		'transition'       : 'transitionend'
+	};
 
 
 
 
 
 $(document).ready(function() {
-	$body = $('body'),
-	$demos = $('.demo'),
-	light = new Photon.Light(),
-	shadeAmount = .5,
-	tintAmount = 0,
-	coverflowFaces = [],
-	cubeFaces = [],
-	diamondFaces = [],
-	currentCover = 0,
-	renderCurrent = renderCrane,
-	$toggleBtn = $('.toggle-btn'),
-	$toggleOn = $('.toggle .label-on'),
-	$toggleOff = $('.toggle .label-off'),
+	$body = $('body');
+	$demos = $('.demo');
+	light = new Photon.Light();
+	shadeAmount = .5;
+	tintAmount = 0;
+	coverflowFaces = [];
+	cubeFaces = [];
+	diamondFaces = [];
+	currentCover = 0;
+	renderCurrent = renderCrane;
+	$toggleBtn = $('.toggle-btn');
+	$toggleOn = $('.toggle .label-on');
+	$toggleOff = $('.toggle .label-off');
 	isLit = true;
+	domTransformProperty = Modernizr.prefixed('transform');
+	cssTransformProperty = domToCss(domTransformProperty);
+	domTransitionProperty = Modernizr.prefixed('transition');
+	cssTransitionProperty = domToCss(domTransitionProperty);
+	transitionEndEvent = transitionEndEvents[domTransitionProperty];
 
 	setupLightControls();
 	setupCoverflow();
 	setupCrane();
 	setupMap();
-	showCrane();
+
+	if(cssTransformProperty == '-webkit-transform') {
+		showCrane();
+	} else {
+		showMap();
+		$('.crane').hide();
+		$('.crane-thumb').hide();
+	}
+	
 
 	// demo menu
 	$('.example-menu a').bind('click', onDemoNav);
@@ -183,7 +207,7 @@ function hideCrane() {
 function rotateCrane(e) {
 	var xPer = e.pageX / $body.width();
 
-	$(crane.element).css('-webkit-transform', 'rotateX(-15deg) rotateY(' + (-180 + (xPer * 360)) + 'deg)');
+	$(crane.element).css(cssTransformProperty, 'rotateX(-15deg) rotateY(' + (-180 + (xPer * 360)) + 'deg)');
 	renderCrane();
 }
 
@@ -217,7 +241,7 @@ function toggleMap() {
 	$map.toggleClass('is-open');
 
 	$map.unbind();
-	$map.bind('webkitTransitionEnd', stopRenderTimer);
+	$map.bind(transitionEndEvent, stopRenderTimer);
 
 	if(!renderTimer) {
 		renderTimer = setInterval(renderMap, 34);
@@ -242,15 +266,10 @@ function rotateMap(e) {
 	var xPer = e.pageX / $body.width();
 	var yPer = e.pageY / $body.height();
 
-	$mapPanel1.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
-	$mapCover.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg) translateZ(-2px) rotateY(180deg) translateX(240px)');
-	$mapPanel3.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
-	$map.css('-webkit-transform', 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
-
-	$mapPanel1.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
-	$mapCover.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg) translateZ(-2px) rotateY(180deg) translateX(240px)');
-	$mapPanel3.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
-	$map.css('-moz-transform', 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
+	$mapPanel1.css(cssTransformProperty, 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
+	$mapCover.css(cssTransformProperty, 'rotateY(' + (178 - (138 * xPer)) + 'deg) translateZ(-2px) rotateY(180deg) translateX(240px)');
+	$mapPanel3.css(cssTransformProperty, 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
+	$map.css(cssTransformProperty, 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
 
 	renderMap();
 }
@@ -277,7 +296,7 @@ function setupCoverflow() {
 		coverflowFaces[i] = new Photon.Face($(this)[0], shadeAmount);
 	});
 
-	$coverflowItems.eq(1).bind('webkitTransitionEnd', stopRenderTimer);
+	$coverflowItems.eq(1).bind(transitionEndEvent, stopRenderTimer);
 	
 	setCoverTransforms();
 }
@@ -300,7 +319,7 @@ function setCoverTransforms(animate) {
 
 		var rotationY = i == currentCover ? 0 : (80 + (offset * -5)) * (i < currentCover ? 1 : -1);
 
-		$(element).css('-webkit-transform', 'translateX(' + x +'px) translateZ(' + z + 'px) rotateY(' + rotationY + 'deg)');
+		$(element).css(cssTransformProperty, 'translateX(' + x +'px) translateZ(' + z + 'px) rotateY(' + rotationY + 'deg)');
 	}
 }
 
@@ -322,7 +341,7 @@ function rotateCoverflow(e) {
 
 		var rotationY = i == currentCover ? 0 : (80 + (offset * -5)) * (i < currentCover ? 1 : -1);
 
-		$(element).css('-webkit-transform', 'translateX(' + x +'px) translateZ(' + z + 'px) rotateY(' + rotationY + 'deg)');
+		$(element).css(cssTransformProperty, 'translateX(' + x +'px) translateZ(' + z + 'px) rotateY(' + rotationY + 'deg)');
 	}
 }
 
@@ -363,13 +382,13 @@ function showCoverflow() {
 
 ---------------------------------*/
 
-// function degToRad(deg) {
-// 	return deg * Math.PI / 180;
-// }
+function domToCss(property) {
+	var css = property.replace(/([A-Z])/g, function (str, m1) {
+		return '-' + m1.toLowerCase();
+	}).replace(/^ms-/,'-ms-');
 
-// function radToDeg(rad) {
-// 	return rad * 180 / Math.PI;
-// }
+	return css;
+}
 
 function clamp(val, min, max) {
     if(val > max) return max;

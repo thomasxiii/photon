@@ -70,6 +70,9 @@ h2:after {
 	clear: both;
 	color: #999;
 	-webkit-transition: color .2s;
+	-moz-transition: color .2s;
+	-0-transition: color .2s;
+	transition: color .2s;
 }
 
 .primary-menu .download-btn {
@@ -106,6 +109,9 @@ h2:after {
 	color: #fff;
 	line-height: 16px;
 	-webkit-transition: color .3s;
+	-moz-transition: color .3s;
+	-o-transition: color .3s;
+	transition: color .3s;
 }
 
 .attasi a:hover {
@@ -197,6 +203,9 @@ h2:after {
 	overflow: hidden;
 	border: 1px solid #555;
 	-webkit-transition: border-color .2s;
+	-moz-transition: border-color .2s;
+	-o-transition: border-color .2s;
+	transition: border-color .2s;
 }
 
 .example-menu a:hover {
@@ -245,9 +254,13 @@ h2:after {
 	width: 100%;
 	height: 100%;
 	-webkit-perspective: 1000px;
-	-webkit-transform-style: preserve-3d;
 	-moz-perspective: 1000px;
+	-o-perspective: 1000px;
+	perspective: 1000px;
+	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .coverflow,
@@ -283,8 +296,6 @@ h2:after {
 .crane .face {
 	position: absolute;
 	background: url(../images/texture-2.png) #ff0;
-	/*background: #eee;*/
-	/*background: #009ddc;*/
 }
 
 
