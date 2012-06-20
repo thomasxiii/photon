@@ -9,7 +9,7 @@
 
 
 var Photon = {
-	version: '0.0.2',
+	version: '0.0.3',
 
 	degToRad: function(deg) {
 		return deg * Math.PI / 180;
@@ -25,6 +25,25 @@ var Photon = {
 		var zVector = yVector.rotate(rotations.z, Line.create([0, 0, 0], [0, 0, 1]));
 		return zVector;
 	},
+
+  getTransformString: function() {
+    if(Photon.transformString) {
+      return Photon.transformString;
+    }
+
+    var transformString;
+    var tests = ['transform', 'webkitTransform', 'MozTransform', 'msTransform', 'OTransform'];
+    var element = document.createElement('div');
+
+    for(var i = 0; i < tests.length; i++) {
+      if(element.style[tests[i]] == '') {
+        transformString = tests[i];
+      }
+    }
+
+    Photon.transformString = transformString;
+    return transformString;
+  },
 
 	// converts transform matrix into a WebKitCSSMatrix object.
 	// multiplies values to avoid whackification
@@ -90,6 +109,8 @@ Photon.Face = function(element, maxShade, maxTint, isBackfaced) {
 	this.shaderElement = new Photon.ShaderElement(this.element);
 	this.element.insertBefore(this.shaderElement, this.element.firstChild);
 	
+  this.transformString = Photon.getTransformString();
+
 	// calculate absolute rotations
 	this.getRotations();
 }
@@ -97,8 +118,9 @@ Photon.Face = function(element, maxShade, maxTint, isBackfaced) {
 Photon.Face.prototype = {
 	getRotations: function() {
 		// pull the transform property
-		var faceTransform = window.getComputedStyle(this.element).webkitTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
-    // var faceTransform = window.getComputedStyle(this.element).MozTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
+    var faceTransform = window.getComputedStyle(this.element)[this.transformString] || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
+
+    console.log(this.transformString);
 
 		// convert the transform data into a matrix
 		this.matrix = Photon.buildMatrix(faceTransform);
@@ -182,9 +204,9 @@ Photon.ShaderElement = function(parent) {
 Photon.FaceGroup = function(parent, faces, maxShade, maxTint, isBackfaced) {
 	this.element = parent;
 	this.faces = [];
+  this.transformString = Photon.getTransformString();
 
 	var childFaces = faces;
-
 	for(var i = 0; i < childFaces.length; i++) {
 		this.faces[i] = new Photon.Face(childFaces[i], maxShade, maxTint, isBackfaced);
 	}
@@ -192,8 +214,7 @@ Photon.FaceGroup = function(parent, faces, maxShade, maxTint, isBackfaced) {
 
 Photon.FaceGroup.prototype = {
 	getRotations: function() {
-		var faceTransform = window.getComputedStyle(this.element).webkitTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
-    // var faceTransform = window.getComputedStyle(this.element).MozTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
+		var faceTransform = window.getComputedStyle(this.element)[this.transformString] || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
 
 		this.matrix = Photon.buildMatrix(faceTransform);
 		var faceDecomp = this.matrix.decompose();
@@ -546,6 +567,155 @@ Matrix.Rotation = function(theta, a) {
     [ t*x*z - s*y, t*y*z + s*x, t*z*z + c ]
   ]);
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ *  class FirminCSSMatrix
+ *
+ *  The [[FirminCSSMatrix]] class is a concrete implementation of the
+ *  `CSSMatrix` interface defined in the [CSS 2D Transforms][2d] and
+ *  [CSS 3D Transforms][3d] Module specifications.
+ *
+ *  [2d]: http://www.w3.org/TR/css3-2d-transforms/
+ *  [3d]: http://www.w3.org/TR/css3-3d-transforms/
+ *
+ *  The implementation was largely copied from the `WebKitCSSMatrix` class, and
+ *  the supparting maths libraries in the [WebKit][webkit] project. This is one
+ *  reason why much of the code looks more like C++ than JavaScript.
+ *
+ *  [webkit]: http://webkit.org/
+ *
+ *  Its API is a superset of that provided by `WebKitCSSMatrix`, largely
+ *  because various pieces of supporting code have been added as instance
+ *  methods rather than pollute the global namespace. Examples of these include
+ *  [[FirminCSSMatrix#isAffine]], [[FirminCSSMatrix#isIdentityOrTranslation]]
+ *  and [[FirminCSSMatrix#adjoint]].
+ **/
+
+/**
+ *  new FirminCSSMatrix(domstr)
+ *  - domstr (String): a string representation of a 2D or 3D transform matrix
+ *    in the form given by the CSS transform property, i.e. just like the
+ *    output from [[FirminCSSMatrix#toString]].
+ **/
+FirminCSSMatrix = function(domstr) {
+    this.m11 = this.m22 = this.m33 = this.m44 = 1;
+    
+               this.m12 = this.m13 = this.m14 =
+    this.m21 =            this.m23 = this.m24 =
+    this.m31 = this.m32 =            this.m34 =
+    this.m41 = this.m42 = this.m43            = 0;
+    
+    if (typeof domstr == "string") {
+        this.setMatrixValue(domstr);
+    }
+};
+
+/**
+ *  FirminCSSMatrix.displayName = "FirminCSSMatrix"
+ **/
+FirminCSSMatrix.displayName = "FirminCSSMatrix";
+
+/**
+ *  FirminCSSMatrix.degreesToRadians(angle) -> Number
+ *  - angle (Number): an angle in degrees.
+ *
+ *  Converts angles in degrees, which are used by the external API, to angles
+ *  in radians used in internal calculations.
+ **/
+FirminCSSMatrix.degreesToRadians = function(angle) {
+    return angle * Math.PI / 180;
+};
+
+/**
+ *  FirminCSSMatrix#isAffine() -> Boolean
+ *
+ *  Determines whether the matrix is affine.
+ **/
+FirminCSSMatrix.prototype.isAffine = function() {
+    return this.m13 === 0 && this.m14 === 0 &&
+           this.m23 === 0 && this.m24 === 0 &&
+           this.m31 === 0 && this.m32 === 0 &&
+           this.m33 === 1 && this.m34 === 0 &&
+           this.m43 === 0 && this.m44 === 1;
+};
+
+
+
+/**
+ *  FirminCSSMatrix#setMatrixValue(domstr) -> undefined
+ *  - domstr (String): a string representation of a 2D or 3D transform matrix
+ *    in the form given by the CSS transform property, i.e. just like the
+ *    output from [[FirminCSSMatrix#toString]].
+ *
+ *  Sets the matrix values using a string representation, such as that produced
+ *  by the [[FirminCSSMatrix#toString]] method.
+ **/
+FirminCSSMatrix.prototype.setMatrixValue = function(domstr) {
+        domstr = domstr.trim();
+    var mstr   = domstr.match(/^matrix(3d)?\(\s*(.+)\s*\)$/),
+        is3d, chunks, len, points, i, chunk;
+    
+    if (!mstr) return;
+    
+    is3d   = !!mstr[1];
+    chunks = mstr[2].split(/\s*,\s*/);
+    len    = chunks.length;
+    points = new Array(len);
+    
+    if ((is3d && len !== 16) || !(is3d || len === 6)) return;
+    
+    for (i = 0; i < len; i++) {
+        chunk = chunks[i];
+        if (chunk.match(/^-?\d+(\.\d+)?$/)) {
+            points[i] = parseFloat(chunk);
+        } else return;
+    }
+    
+    for (i = 0; i < len; i++) {
+        point = is3d ?
+            ("m" + (Math.floor(i / 4) + 1)) + (i % 4 + 1) :
+            String.fromCharCode(i + 97); // ASCII char 97 == 'a'
+        this[point] = points[i];
+    }
+};
+
+/**
+ *  FirminCSSMatrix#toString() -> String
+ *
+ *  Returns a string representation of the matrix.
+ **/
+FirminCSSMatrix.prototype.toString = function() {
+    var self = this, points, prefix;
+    
+    if (this.isAffine()) {
+        prefix = "matrix(";
+        points = ["a", "b", "c", "d", "e", "f"];
+    } else {
+        prefix = "matrix3d(";
+        points = ["m11", "m12", "m13", "m14",
+                  "m21", "m22", "m23", "m24",
+                  "m31", "m32", "m33", "m34",
+                  "m41", "m42", "m43", "m44"];
+    }
+    
+    return prefix + points.map(function(p) {
+        return self[p].toFixed(6);
+    }).join(", ") + ")";
+};
+
+
 
 
 

@@ -244,9 +244,9 @@ h2:after {
 	z-index: 0;
 	width: 100%;
 	height: 100%;
-	-webkit-perspective: 1000;
+	-webkit-perspective: 1000px;
 	-webkit-transform-style: preserve-3d;
-	-moz-perspective: 1000;
+	-moz-perspective: 1000px;
 	-moz-transform-style: preserve-3d;
 }
 
