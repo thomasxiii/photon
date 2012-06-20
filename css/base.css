@@ -246,6 +246,8 @@ h2:after {
 	height: 100%;
 	-webkit-perspective: 1000;
 	-webkit-transform-style: preserve-3d;
+	-moz-perspective: 1000;
+	-moz-transform-style: preserve-3d;
 }
 
 .coverflow,
@@ -552,6 +554,9 @@ h2:after {
 	left: 50%;
 	-webkit-transform-style: preserve-3d;
 	-webkit-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
+
+	-moz-transform-style: preserve-3d;
+	-moz-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
 }
 
 .panel-1,
@@ -569,6 +574,9 @@ h2:after {
 	background-position: 0 0;
 	-webkit-transform-origin: right;
 	-webkit-transform: rotateY(178deg);
+
+	-moz-transform-origin: right;
+	-moz-transform: rotateY(178deg);
 }
 
 .map-cover {
@@ -580,10 +588,15 @@ h2:after {
 	background: url(../images/map-cover.png) no-repeat;
 	-webkit-transform-origin: right;
 	-webkit-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
+
+	-moz-transform-origin: right;
+	-moz-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
 }
 
 .map.is-open .panel-1 {
 	-webkit-transform: rotateY(60deg);
+
+	-moz-transform: rotateY(60deg);
 }
 
 .panel-2 {
@@ -596,10 +609,15 @@ h2:after {
 	background-position: -480px 0;
 	-webkit-transform-origin: left;
 	-webkit-transform: rotateY(178deg);
+
+	-moz-transform-origin: left;
+	-moz-transform: rotateY(178deg);
 }
 
 .map.is-open .panel-3 {
 	-webkit-transform: rotateY(60deg);
+
+	-moz-transform: rotateY(60deg);
 }
 
 

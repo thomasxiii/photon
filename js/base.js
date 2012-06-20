@@ -247,6 +247,11 @@ function rotateMap(e) {
 	$mapPanel3.css('-webkit-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
 	$map.css('-webkit-transform', 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
 
+	$mapPanel1.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
+	$mapCover.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg) translateZ(-2px) rotateY(180deg) translateX(240px)');
+	$mapPanel3.css('-moz-transform', 'rotateY(' + (178 - (138 * xPer)) + 'deg)');
+	$map.css('-moz-transform', 'rotateX(' + (40 - (yPer * 70)) + 'deg) rotateY(' + (20 - (xPer * 60)) + 'deg) rotateZ(0)');
+
 	renderMap();
 }
 

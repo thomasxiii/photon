@@ -29,27 +29,27 @@ var Photon = {
 	// converts transform matrix into a WebKitCSSMatrix object.
 	// multiplies values to avoid whackification
 	buildMatrix: function(faceTransform) {
-		var matrix = new WebKitCSSMatrix(faceTransform);
+		var matrix = new FirminCSSMatrix(faceTransform);
 		
-		matrix.m11 = matrix.m11 * 10000000000000000;
-		matrix.m12 = matrix.m12 * 10000000000000000;
-		matrix.m13 = matrix.m13 * 10000000000000000;
-		matrix.m14 = matrix.m14 * 10000000000000000;
+		matrix.m11 = matrix.m11 * 1e16;
+		matrix.m12 = matrix.m12 * 1e16;
+		matrix.m13 = matrix.m13 * 1e16;
+		matrix.m14 = matrix.m14 * 1e16;
 		
-		matrix.m21 = matrix.m21 * 10000000000000000;
-		matrix.m22 = matrix.m22 * 10000000000000000;
-		matrix.m23 = matrix.m23 * 10000000000000000;
-		matrix.m24 = matrix.m24 * 10000000000000000;
+		matrix.m21 = matrix.m21 * 1e16;
+		matrix.m22 = matrix.m22 * 1e16;
+		matrix.m23 = matrix.m23 * 1e16;
+		matrix.m24 = matrix.m24 * 1e16;
 		
-		matrix.m31 = matrix.m31 * 10000000000000000;
-		matrix.m32 = matrix.m32 * 10000000000000000;
-		matrix.m33 = matrix.m33 * 10000000000000000;
-		matrix.m34 = matrix.m34 * 10000000000000000;
+		matrix.m31 = matrix.m31 * 1e16;
+		matrix.m32 = matrix.m32 * 1e16;
+		matrix.m33 = matrix.m33 * 1e16;
+		matrix.m34 = matrix.m34 * 1e16;
 		
-		matrix.m41 = matrix.m41 * 10000000000000000;
-		matrix.m42 = matrix.m42 * 10000000000000000;
-		matrix.m43 = matrix.m43 * 10000000000000000;
-		matrix.m44 = matrix.m44 * 10000000000000000;
+		matrix.m41 = matrix.m41 * 1e16;
+		matrix.m42 = matrix.m42 * 1e16;
+		matrix.m43 = matrix.m43 * 1e16;
+		matrix.m44 = matrix.m44 * 1e16;
 		
 		return matrix;
 	}
@@ -98,6 +98,7 @@ Photon.Face.prototype = {
 	getRotations: function() {
 		// pull the transform property
 		var faceTransform = window.getComputedStyle(this.element).webkitTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
+    // var faceTransform = window.getComputedStyle(this.element).MozTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
 
 		// convert the transform data into a matrix
 		this.matrix = Photon.buildMatrix(faceTransform);
@@ -192,6 +193,7 @@ Photon.FaceGroup = function(parent, faces, maxShade, maxTint, isBackfaced) {
 Photon.FaceGroup.prototype = {
 	getRotations: function() {
 		var faceTransform = window.getComputedStyle(this.element).webkitTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
+    // var faceTransform = window.getComputedStyle(this.element).MozTransform || 'matrix3d(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)';
 
 		this.matrix = Photon.buildMatrix(faceTransform);
 		var faceDecomp = this.matrix.decompose();
@@ -586,7 +588,7 @@ var CSSMatrixDecomposed = function(obj) {
 			fn = function(pos) {return pos;}; // Default to a linear easing
 		
 		if(!dm)
-			dm = new CSSMatrixDecomposed(new WebKitCSSMatrix().decompose());
+			dm = new CSSMatrixDecomposed(new FirminCSSMatrix().decompose());
 		
 		var r = new CSSMatrixDecomposed(),
 			i = index = null,
@@ -606,7 +608,7 @@ var CSSMatrixDecomposed = function(obj) {
 				'matrix3d(1,0,0,0, '+r.skew.x+',1,0,0, 0,0,1,0, 0,0,0,1) ' +
 				'scale3d('+r.scale.x+', '+r.scale.y+', '+r.scale.z+')';
 
-		try { r = new WebKitCSSMatrix(trans); return r; }
+		try { r = new FirminCSSMatrix(trans); return r; }
 		catch(e) { console.error('Invalid matrix string: '+trans); return '' };
 	};
 };
@@ -700,7 +702,7 @@ var Vector4 = function(x, y, z, w)
 	}
 };
 
-WebKitCSSMatrix.prototype.determinant = function() {
+FirminCSSMatrix.prototype.determinant = function() {
 	return 	this.m14 * this.m23 * this.m32 * this.m41-this.m13 * this.m24 * this.m32 * this.m41 -
 			this.m14 * this.m22 * this.m33 * this.m41+this.m12 * this.m24 * this.m33 * this.m41 +
 			this.m13 * this.m22 * this.m34 * this.m41-this.m12 * this.m23 * this.m34 * this.m41 -
@@ -715,13 +717,13 @@ WebKitCSSMatrix.prototype.determinant = function() {
 			this.m12 * this.m21 * this.m33 * this.m44+this.m11 * this.m22 * this.m33 * this.m44;
 };
 
-WebKitCSSMatrix.prototype.decompose = function() {
-	var matrix = new WebKitCSSMatrix(this.toString()),
+FirminCSSMatrix.prototype.decompose = function() {
+	var matrix = new FirminCSSMatrix(this.toString()),
 		perspectiveMatrix = rightHandSide = inversePerspectiveMatrix = transposedInversePerspectiveMatrix =
 		perspective = translate = row = i = scale = skew = pdum3 =  rotate = null;
 	
 	if (matrix.m33 == 0)
-	    return new CSSMatrixDecomposed(new WebKitCSSMatrix().decompose()); // Return the identity matrix
+	    return new CSSMatrixDecomposed(new FirminCSSMatrix().decompose()); // Return the identity matrix
 
 	// Normalize the matrix.
 	for (i = 1; i <= 4; i++)
@@ -738,7 +740,7 @@ WebKitCSSMatrix.prototype.decompose = function() {
 	perspectiveMatrix.m44 = 1;
 
 	if (perspectiveMatrix.determinant() == 0)
-	    return new CSSMatrixDecomposed(new WebKitCSSMatrix().decompose()); // Return the identity matrix
+	    return new CSSMatrixDecomposed(new FirminCSSMatrix().decompose()); // Return the identity matrix
 
 	// First, isolate perspective.
 	if (matrix.m14 != 0 || matrix.m24 != 0 || matrix.m34 != 0)
