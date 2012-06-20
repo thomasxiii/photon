@@ -9,7 +9,7 @@
 
 
 var Photon = {
-	version: '0.0.1',
+	version: '0.0.2',
 
 	degToRad: function(deg) {
 		return deg * Math.PI / 180;
