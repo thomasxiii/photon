@@ -65,17 +65,17 @@ $(document).ready(function() {
 	setupCrane();
 	setupMap();
 
+	// demo menu
+	$('.example-menu a').bind('click', onDemoNav);
+
 	if(cssTransformProperty == '-webkit-transform') {
 		showCrane();
 	} else {
+		$('.map-thumb').click();
 		showMap();
 		$('.crane').hide();
 		$('.crane-thumb').hide();
 	}
-	
-
-	// demo menu
-	$('.example-menu a').bind('click', onDemoNav);
 });
 
 
@@ -296,6 +296,7 @@ function setupCoverflow() {
 		coverflowFaces[i] = new Photon.Face($(this)[0], shadeAmount);
 	});
 
+	console.log(transitionEndEvent);
 	$coverflowItems.eq(1).bind(transitionEndEvent, stopRenderTimer);
 	
 	setCoverTransforms();
@@ -315,7 +316,6 @@ function setCoverTransforms(animate) {
 		var offset = Math.abs(currentCover - i);
 		var x = i == currentCover ? 0 : (150 + (100 * offset)) * (i < currentCover ? -1 : 1);
 		var z = i == currentCover ? 0 : -200;
-		// var rotationY = i == currentCover ? 0 : 80 * (i < currentCover ? 1 : -1);
 
 		var rotationY = i == currentCover ? 0 : (80 + (offset * -5)) * (i < currentCover ? 1 : -1);
 
@@ -337,7 +337,6 @@ function rotateCoverflow(e) {
 		var offset = Math.abs(currentCover - i);
 		var x = i == currentCover ? 0 : (150 + (100 * offset)) * (i < currentCover ? -1 : 1);
 		var z = i == currentCover ? 0 : -200;
-		// var rotationY = i == currentCover ? 0 : 80 * (i < currentCover ? 1 : -1);
 
 		var rotationY = i == currentCover ? 0 : (80 + (offset * -5)) * (i < currentCover ? 1 : -1);
 
