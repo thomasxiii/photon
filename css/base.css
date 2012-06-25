@@ -71,7 +71,8 @@ h2:after {
 	color: #999;
 	-webkit-transition: color .2s;
 	-moz-transition: color .2s;
-	-0-transition: color .2s;
+	-ms-transition: color .2s;
+	-o-transition: color .2s;
 	transition: color .2s;
 }
 
@@ -110,6 +111,7 @@ h2:after {
 	line-height: 16px;
 	-webkit-transition: color .3s;
 	-moz-transition: color .3s;
+	-ms-transition: color .3s;
 	-o-transition: color .3s;
 	transition: color .3s;
 }
@@ -204,6 +206,7 @@ h2:after {
 	border: 1px solid #555;
 	-webkit-transition: border-color .2s;
 	-moz-transition: border-color .2s;
+	-ms-transition: border-color .2s;
 	-o-transition: border-color .2s;
 	transition: border-color .2s;
 }
@@ -214,7 +217,6 @@ h2:after {
 
 .example-menu a.current {
 	background: url(../images/example-thumbs.png) no-repeat rgba(128, 128, 128, .4);
-	background-position-y: -87px;
 	border-color: #ff0;
 }
 
@@ -223,15 +225,27 @@ h2:after {
 }
 
 .example-menu a.crane-thumb {
-	background-position-x: 0;
+	background-position: 0 0;
+}
+
+.example-menu a.crane-thumb:hover {
+	background-position: 0 -87px;
 }
 
 .example-menu a.coverflow-thumb {
-	background-position-x: -132px;
+	background-position: -132px 0;
+}
+
+.example-menu a.coverflow-thumb:hover {
+	background-position: -132px -87px;
 }
 
 .example-menu a.map-thumb {
-	background-position-x: -264px;
+	background-position: -264px 0;
+}
+
+.example-menu a.map-thumb:hover {
+	background-position: -264px -87px;
 }
 
 
@@ -255,10 +269,12 @@ h2:after {
 	height: 100%;
 	-webkit-perspective: 1000px;
 	-moz-perspective: 1000px;
+	-ms-perspective: 1000px;
 	-o-perspective: 1000px;
 	perspective: 1000px;
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
 	-o-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
@@ -528,8 +544,11 @@ h2:after {
 	z-index: 0;
 	width: 100%;
 	height: 100%;
-	-webkit-perspective: 1000;
 	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	transform-style: preserve-3d;
 }
 
 .coverflow li {
@@ -542,6 +561,10 @@ h2:after {
 	margin-left: -200px;
 	margin-top: -250px;
 	-webkit-transition: -webkit-transform .3s;
+	-moz-transition: -moz-transform .3s;
+	-ms-transition: -ms-transform .3s;
+	-o-transition: -o-transform .3s;
+	transition: transform .3s;
 	pointer-events: none;
 }
 
@@ -564,10 +587,15 @@ h2:after {
 	top: 50%;
 	left: 50%;
 	-webkit-transform-style: preserve-3d;
-	-webkit-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
-
 	-moz-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
 	-moz-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
+	-ms-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
+	-o-transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
+	transform: rotateX(10deg) rotateY(30deg) rotateZ(0);
 }
 
 .panel-1,
@@ -584,10 +612,15 @@ h2:after {
 	left: -360px;
 	background-position: 0 0;
 	-webkit-transform-origin: right;
-	-webkit-transform: rotateY(178deg);
-
 	-moz-transform-origin: right;
+	-ms-transform-origin: right;
+	-o-transform-origin: right;
+	transform-origin: right;
+	-webkit-transform: rotateY(178deg);
 	-moz-transform: rotateY(178deg);
+	-ms-transform: rotateY(178deg);
+	-o-transform: rotateY(178deg);
+	transform: rotateY(178deg);
 }
 
 .map-cover {
@@ -598,16 +631,23 @@ h2:after {
 	height: 400px;
 	background: url(../images/map-cover.png) no-repeat;
 	-webkit-transform-origin: right;
-	-webkit-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
-
 	-moz-transform-origin: right;
+	-ms-transform-origin: right;
+	-o-transform-origin: right;
+	transform-origin: right;
+	-webkit-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
 	-moz-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
+	-ms-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
+	-o-transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
+	transform: rotateY(178deg) translateZ(-2px) rotateY(180deg) translateX(240px);
 }
 
 .map.is-open .panel-1 {
 	-webkit-transform: rotateY(60deg);
-
 	-moz-transform: rotateY(60deg);
+	-ms-transform: rotateY(60deg);
+	-o-transform: rotateY(60deg);
+	transform: rotateY(60deg);
 }
 
 .panel-2 {
@@ -619,16 +659,23 @@ h2:after {
 	left: 120px;
 	background-position: -480px 0;
 	-webkit-transform-origin: left;
-	-webkit-transform: rotateY(178deg);
-
 	-moz-transform-origin: left;
+	-ms-transform-origin: left;
+	-o-transform-origin: left;
+	transform-origin: left;
+	-webkit-transform: rotateY(178deg);
 	-moz-transform: rotateY(178deg);
+	-ms-transform: rotateY(178deg);
+	-o-transform: rotateY(178deg);
+	transform: rotateY(178deg);
 }
 
 .map.is-open .panel-3 {
 	-webkit-transform: rotateY(60deg);
-
 	-moz-transform: rotateY(60deg);
+	-ms-transform: rotateY(60deg);
+	-o-transform: rotateY(60deg);
+	transform: rotateY(60deg);
 }
 
 
