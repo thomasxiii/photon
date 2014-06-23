@@ -64,6 +64,7 @@ $(document).ready(function() {
 	setupCoverflow();
 	setupCrane();
 	setupMap();
+  setupTouch();
 
 	// demo menu
 	$('.example-menu a').bind('click', onDemoNav);
@@ -393,4 +394,33 @@ function clamp(val, min, max) {
     if(val > max) return max;
     if(val < min) return min;
     return val;
+}
+
+function touchHandler(event) {
+  var touches = event.changedTouches;
+  var first = touches[0];
+  var type = '';
+
+  switch(event.type) {
+    case 'touchstart' : type = 'mousedown'; break;
+    case 'touchmove'  : type = 'mousemove'; break;
+    case 'touchend'   : type = 'mouseup'; break;
+    default           : return;
+  }
+
+  var simulatedEvent = document.createEvent('MouseEvent');
+
+  simulatedEvent.initMouseEvent(type, true, true, window, 1,
+                                first.screenX, first.screenY,
+                                first.clientX, first.clientY, false,
+                                false, false, false, 0/*left*/, null);
+  first.target.dispatchEvent(simulatedEvent);
+  if(event.type == 'mousemove') { event.preventDefault() }
+}
+
+function setupTouch() {
+  document.addEventListener('touchstart', touchHandler, true);
+  document.addEventListener('touchmove', touchHandler, true);
+  document.addEventListener('touchend', touchHandler, true);
+  document.addEventListener('touchcancel', touchHandler, true);
 }
